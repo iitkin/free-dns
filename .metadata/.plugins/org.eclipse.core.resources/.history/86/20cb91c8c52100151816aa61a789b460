@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+	<!-- Jackson Mapper -->
+	<bean id="jacksonObjectMapper" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<bean class="com.fasterxml.jackson.databind.ObjectMapper" />
+		</property>
+		<property name="targetMethod" value="configure" />
+		<property name="arguments">
+			<list>
+				<value type="com.fasterxml.jackson.databind.DeserializationFeature">FAIL_ON_UNKNOWN_PROPERTIES</value>
+				<value>false</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="objectMapper" ref="jacksonObjectMapper" />
+	</bean>
+	
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<!-- Jackson converter for HTTP messages -->
+			<ref bean="jsonConverter" />
+			<bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter" />
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+
+	<!-- Forwards requests made direct to the context root to a default view -->
+	<mvc:view-controller path="/" view-name="index" />
+	<mvc:view-controller path="/excelcopy" view-name="excelcopy" />
+	<mvc:view-controller path="/organizationfileupload"
+		view-name="organizationfileupload" />
+
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- The max size of a blob is 4GB, but the max length of a byte array is 2GB so set at that. The provider service will provide a finer level of detail to ensure the validation message 
+			is nice. -->
+		<property name="maxUploadSize" value="${storage.apache.max.upload.bytes}" />
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="defaultContentType" value="multipart/form-data" />
+		<property name="defaultViews">
+			<list>
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+			</list>
+		</property>
+	</bean>
+
+	<mvc:resources mapping="/resources/**" location="/resources"
+		cache-period="10000" />
+
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<constructor-arg>
+			<bean class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+				<!-- prefer to use connectTimeout of around 400-500 but only accessible from 3.0.6 -->
+				<property name="readTimeout" value="120000" />
+			</bean>
+		</constructor-arg>
+	
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>

@@ -1,0 +1,95 @@
+<html>
+<head>
+<title>iDesk - Prebuy</title>
+<style type="text/css">
+	#csvtable{
+		border:2px solid #999;
+	}
+	#csvtable th{
+		border:2px solid #999;
+		text-align:center;
+	}
+	#csvtable td{
+		border:1px solid #999;
+		text-align:center;
+	}
+</style>
+<script type="text/javascript">
+function xmlhttpPost(strURL) {
+    var self = this;
+    // Mozilla/Safari
+    if (window.XMLHttpRequest) {
+        self.xmlHttpReq = new XMLHttpRequest();
+    }
+    // IE
+    else if (window.ActiveXObject) {
+        self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    self.xmlHttpReq.open('POST', strURL, true);
+    self.xmlHttpReq.setRequestHeader('Content-Type', 'multipart/form-data; charset=utf-8');
+    
+    self.xmlHttpReq.onreadystatechange = function() {
+        if (self.xmlHttpReq.readyState == 4) {
+            updatepage(self.xmlHttpReq.responseText);
+        }
+    };
+    self.xmlHttpReq.send(getquerystring());
+}
+
+function parseText() {
+	window.setTimeout(function() {
+		xmlhttpPost('/prebuy-server-services/excel-parser');
+	}, 1);
+}
+
+function getquerystring() {
+    var form     = document.forms['f1'];
+    var word = form.word.value;
+    return word;
+}
+
+function updatepage(str){
+	var hasHeader = document.getElementById("hasHeader").checked;
+	var json = eval('(' + str + ')');
+	var rows = json.dto;
+	if (rows.length) {
+		var table = document.createElement('table');
+		table.setAttribute('id','csvtable');
+		var tbody = document.createElement('tbody');
+		table.appendChild(tbody);
+		for (var i=0; i<rows.length;i++) {
+			var row = rows[i];
+			var tr = document.createElement('tr')
+			for (var j=0; j<row.length; j++) {
+				var colValue = row[j];
+				var td;
+				if (hasHeader && i == 0) {
+					td = document.createElement('th');
+				} else {
+					td = document.createElement('td');
+				}
+				td.appendChild(document.createTextNode(colValue ? colValue : ''));
+				tr.appendChild(td);
+			}
+			tbody.appendChild(tr);
+		}
+		var resultDiv = document.getElementById("result");
+		if (resultDiv.hasChildNodes()) {
+			resultDiv.removeChild(resultDiv.lastChild);
+		}
+		resultDiv.appendChild(table);
+	}
+}
+</script>
+</head>
+<body>
+<form name="f1">
+  <p>
+  Copy your excel here: <br/>
+  <textarea name="word" rows=10 cols=50 onpaste="parseText();"></textarea><br/>
+  <input id="hasHeader" type="checkbox" name="hasHeader" value="true"/> Has header information ?<br/> 
+  </p>
+  <div id="result"></div>
+</form>
+</body>
+</html>

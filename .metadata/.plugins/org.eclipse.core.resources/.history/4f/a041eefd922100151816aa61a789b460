@@ -1,0 +1,198 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+<title>iDesk - Prebuy (EAV Demo)</title>
+<style type="text/css">
+	#csvtable{
+		border:2px solid #999;
+	}
+	#csvtable th{
+		border:2px solid #999;
+		text-align:center;
+	}
+	#csvtable td{
+		border:1px solid #999;
+		text-align:center;
+	}
+</style>
+<c:url var="urlEavdemo" value="/proposaltemplate/eavdemo" />
+<c:url var="getTemplates" value="/proposaltemplate/eavdemo?agencyId=" />
+<c:url var="getRelatedSetMembers" value="/proposaltemplate/setmembers/" />
+<script type="text/javascript">
+
+	function xmlhttpPost(strURL) {
+	    var self = this;
+	    // Mozilla/Safari
+	    if (window.XMLHttpRequest) {
+	        self.xmlHttpReq = new XMLHttpRequest();
+	    }
+	    // IE
+	    else if (window.ActiveXObject) {
+	        self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+	    }
+	    self.xmlHttpReq.open('GET', strURL, true);
+	    self.xmlHttpReq.setRequestHeader('Content-Type', 'applicatin/json');
+	    
+	    self.xmlHttpReq.onreadystatechange = function() {
+	        if (self.xmlHttpReq.readyState == 4) {
+	            updatepage(self.xmlHttpReq.responseText);
+	        }
+	    };
+	    self.xmlHttpReq.send();
+	}
+	
+	function updatepage(response) {
+		var respObj = eval('(' + response + ')');
+		var select = document.getElementById('PB_Placement_Positioning');
+        select.innerHTML = '';
+        var optionsText = '';
+		for (var i=0; i<respObj.dto.length; i++) {
+			 	optionsText += '<option value="' + respObj.dto[i].value + '">' + respObj.dto[i].value + '</option>';
+		}
+		select.innerHTML = optionsText;
+	}
+	
+    function loadRelatedSets(select) {
+        
+        if(select.id == 'PB_Placement_UnitDimensions' && '${param.templateId}' != '2247') {
+            var selectedMemberId = select.options[select.selectedIndex].value;
+            xmlhttpPost('${getRelatedSetMembers}' + selectedMemberId);
+        }
+    }
+	
+	function getTemplates(select) {
+		   var value = select.options[select.selectedIndex].value;
+		   if (value != -1) {
+			   location.href = "${getTemplates}" + value;
+		   } else {
+			   location.href = "${urlEavdemo}";
+		   }
+	}
+	function showTemplate() {
+		var agencySelect = document.getElementById("agencyId");
+		var templateSelect = document.getElementById("templateId");
+		var isPackage = document.getElementById("isPackage").checked;
+		var agencyId = agencySelect.options[agencySelect.selectedIndex].value;
+		var templateId = templateSelect.options[templateSelect.selectedIndex].value;
+		var mediaTypeSelect = document.getElementById("63573");
+		if (!mediaTypeSelect) {mediaTypeSelect = document.getElementById("63565");}
+		var mediaType = mediaTypeSelect.options[mediaTypeSelect.selectedIndex].value;
+		if (agencyId != null) {
+			if (isPackage) {
+				location.href = "${urlEavdemo}?agencyId=" + agencyId + "&isPackage=" + true;
+			} else if (templateId != -1 && mediaType) {
+				location.href = "${urlEavdemo}?agencyId=" + agencyId + "&templateId=" + templateId + "&mediaType=" + mediaType;
+			}
+		} else {
+			alert("Please select an agency and template.");
+		}
+	}
+</script>
+</head>
+<body>
+
+<h3>Show Proposal Templates</h3>
+Select an agency: 
+<select id="agencyId" onchange="getTemplates(this)">
+<option value="-1">Select One...</option>
+<c:forEach var="agency" items="${agencies}">
+    <c:choose>
+    <c:when test="${agency.id == param.agencyId }">
+        <option value="${agency.id}" selected="selected">${agency.name}</option>
+    </c:when>
+    <c:otherwise>
+        <option value="${agency.id}">${agency.name}</option>
+    </c:otherwise>
+    </c:choose>
+</c:forEach>
+</select>
+<span>Package <input id="isPackage" type="checkbox" /></span>
+<br/>
+Select a template:
+<select id="templateId">
+<c:forEach var="template" items="${templates}">
+    <c:choose>
+    <c:when test="${template.id == param.templateId }">
+        <option value="${template.familyId}" selected="selected">${template.name}</option>
+    </c:when>
+    <c:otherwise>
+        <option value="${template.familyId}">${template.name}</option>
+    </c:otherwise>
+    </c:choose>
+</c:forEach>
+</select><br/><br/>
+<b><i>Filters:</i></b>
+<div>
+<c:forEach var="attribute" items="${filters.attributes}">
+	${attribute.labelKey}
+    <c:choose>
+    <c:when test="${attribute.setDefinition.membersOfSet != null }">
+	    <select id="${attribute.id}">
+	    <c:forEach var="member" items="${attribute.setDefinition.membersOfSet}">
+	       <option value="${member.value}">${member.labelKey}</option>
+	    </c:forEach>
+	    </select>
+    </c:when>
+    <c:otherwise>
+    </c:otherwise>
+    </c:choose>
+</c:forEach>
+</div>
+<br/>
+<input type="button" value="GO" onclick="showTemplate()" />
+<br/><br/>
+<c:if test="${attributes != null }">
+<div id="templateDiv">
+    <table style="width:100px">
+    <thead><tr><th colspan="2">Proposal template</th></tr></thead>
+    <c:forEach var="attribute" items="${attributes}">
+        <tr>
+        <td width="250px"><c:out value="${attribute.labelKey}" />:</td>
+        <td>
+        <c:choose>
+            <c:when test="${attribute.setDefinition != null}">
+                <select id="${attribute.name}" onchange="loadRelatedSets(this);" style="width: 150px;">
+                <c:forEach var="setMember" items="${attribute.setDefinition.membersOfSet}">
+                    <option value=${setMember.id}>${setMember.labelKey}</option>
+                </c:forEach>
+                </select>
+            </c:when>
+            <c:otherwise>
+                <input type="text" style="width: 150px;"/>
+            </c:otherwise>
+        </c:choose>
+        </td>
+        </tr>
+    </c:forEach>
+    </table>
+</div>
+</c:if>
+<c:if test="${packageattributes != null }">
+<div id="packageAttributesDiv">
+    <table style="width:100px">
+    <thead><tr><th colspan="2">Attributes of package</th></tr></thead>
+    <c:forEach var="attribute" items="${packageattributes}">
+        <tr>
+        <td width="250px"><c:out value="${attribute.labelKey}" />:</td>
+        <td>
+        <c:choose>
+            <c:when test="${attribute.setMembers != null}">
+                <select id="${attribute.name}" onchange="loadRelatedSets(this);" style="width: 150px;">
+                <c:forEach var="setMember" items="${attribute.setMembers}">
+                    <option value=${setMember.id}>${setMember.labelKey}</option>
+                </c:forEach>
+                </select>
+            </c:when>
+            <c:otherwise>
+                <input type="text" style="width: 150px;"/>
+            </c:otherwise>
+        </c:choose>
+        </td>
+        </tr>
+    </c:forEach>
+    </table>
+</div>
+</c:if>
+
+</body>
+</html>

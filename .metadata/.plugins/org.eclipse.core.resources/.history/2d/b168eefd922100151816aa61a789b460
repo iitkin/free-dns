@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>iDesk - Prebuy</title>
+</head>
+<body>
+<h3>Welcome to Prebuy</h3>
+<p>
+For excel demo <a href="/prebuy-server-services/excelcopy">click here</a>
+<br/>
+For eav demo <a href="/prebuy-server-services/proposal/eavdemo">click here</a>
+<br/>
+To create a EAV defnition by xml  <a href="/prebuy-server-services/initialize/uploadTemplate">click here</a>
+</p>
+
+<h2>UI Modules</h2>
+<p>
+<a href="/os-prebuy-ui-component-campaign/">Campaign List</a><br/>
+<a href="/os-prebuy-ui-component-rfp/">RFP</a><br/>
+<a href="/os-prebuy-ui-component-rfp-header/">RFP Header</a><br/>
+<a href="/os-prebuy-ui-component-proposal/">Proposals</a><br/>
+<a href="/os-prebuy-ui-component-lineitem/">Line Item</a><br/>
+</p>
+
+
+</body>
+</html>

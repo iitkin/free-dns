@@ -1,0 +1,10 @@
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping(headers = "Accept=application/xml, application/json")
+public class DNSController {
+	
+	 @ResponseBody
+	    @RequestMapping(method = RequestMethod.GET, value = "/
+}

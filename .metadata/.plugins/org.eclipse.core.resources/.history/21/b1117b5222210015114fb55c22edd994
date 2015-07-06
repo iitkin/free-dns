@@ -1,0 +1,97 @@
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
+<%@ page session="false" %>
+
+<html>
+<head>
+	<title>Organization Layout Update Tool (OLUT)</title>
+</head>
+
+<body>
+<h1 align="top">
+	<FONT COLOR="Blue">Organization Layout Update Tool (OLUT)</FONT> 
+</h1>
+
+<script type="text/javascript">
+   function OnSubmitForm()
+   {
+ 	    if(document.uploadForm.operation[0].checked == true)        {
+    	    if (document.uploadForm.fileData.files.length == 0) {
+    	    	alert("A file must be selected for upload.");
+    	    	document.uploadForm.fileData.setFocus();
+    	    	return false;
+    	    }
+            document.uploadForm.action ="/prebuy-server-services/initialize/uploadTemplate";
+        }
+        else 
+    	if(document.uploadForm.operation[1].checked == true)        {
+    		if (document.uploadForm.orgName.value == '') {
+    			alert('Please enter organization name. ');
+    			document.uploadForm.orgName.focus();
+    			return false;
+    		}
+            document.uploadForm.action ="/prebuy-server-services/initialize/downloadTemplate/" + document.uploadForm.orgName.value;
+        }
+    	else 
+       	if(document.uploadForm.operation[2].checked == true)        {
+        		if (document.uploadForm.orgName.value == '') {
+        			alert('Please enter organization name. ');
+        			document.uploadForm.orgName.focus();
+        			return false;
+        		}
+                document.uploadForm.action ="/prebuy-server-services/initialize/downloadBundle/" + document.uploadForm.orgName.value;
+            }
+ 		return true;
+    }
+</script>
+
+<sf:form name="uploadForm" 
+		method="POST"
+		onsubmit="return OnSubmitForm();"
+		 modelAttribute="uploadItem"
+		enctype="multipart/form-data"
+		>
+	
+	<fieldset>
+		<table>
+			<tr>
+			<td>
+			<table cellspacing="0">
+				<th>
+					<p>
+					Template File Upload/Download
+					</p>
+				</th>
+				<tr><td>&nbsp;</td></tr>
+				<tr>
+					<td>
+						<input name="fileData" type="file" />
+					</td>
+				</tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr>
+					<td>
+						<FONT COLOR="Red">Type Organization name here</FONT> <input name="orgName" type="text">
+					</td>
+				</tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr>
+					 <td><input type="radio" name="operation" value="Upload Family" checked>Upload Family</input>
+	   				     <input type="radio" name="operation" value="DownloadXml">Download XML</input>
+	   				     <input type="radio" name="operation" value="DownloadBundle">Download Bundle</input>
+	   				     <button type="submit">Submit</button>
+					</td>
+				</tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr><td>${message}</td></tr>
+			</table>
+			</td>
+<!-- 			<td> -->
+<!-- 			<img src="resources/images/Fingerpori-Olut.jpg" width="150" height="150"  align="top"/> -->
+<!-- 		  </td>		 -->
+		  </tr>
+		</table>
+			
+	</fieldset>
+</sf:form>
+</body>
+</html>
