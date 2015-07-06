@@ -1279,3 +1279,23 @@ Caused by: org.codehaus.plexus.util.xml.pull.XmlPullParserException: Unrecognise
 2015-07-03 22:09:01,631 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
 2015-07-03 22:09:01,635 [Worker-174] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
 2015-07-03 22:09:01,635 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /Users/iitkin/Documents/workspace/private-dns/free-dns/src/test/resources
+2015-07-05 22:12:38,473 [ModalContext] WARN  o.e.m.i.discovery.MavenDiscovery - CatalogItem org.eclipse.m2e.discovery.lifecyclemapping.m2e-egit does not contain lifecycle mapping metadata
+2015-07-05 22:12:38,474 [ModalContext] WARN  o.e.m.i.discovery.MavenDiscovery - CatalogItem org.eclipse.m2e.discovery.lifecyclemapping.m2e-subversive does not contain lifecycle mapping metadata
+2015-07-05 22:12:38,475 [ModalContext] WARN  o.e.m.i.discovery.MavenDiscovery - CatalogItem org.eclipse.m2e.discovery.lifecyclemapping.m2e-subclipse does not contain lifecycle mapping metadata
+2015-07-05 22:12:48,105 [Worker-238] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.free:dns:1.0.0-BUILD-SNAPSHOT @ /Users/iitkin/Documents/workspace/private-dns/dnsapp/pom.xml.
+2015-07-05 22:12:48,320 [Worker-238] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /dnsapp/src/main/java
+2015-07-05 22:12:48,321 [Worker-238] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /dnsapp/src/main/resources
+2015-07-05 22:12:48,322 [Worker-238] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /dnsapp/src/test/java
+2015-07-05 22:12:48,485 [Worker-238] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Project import completed 0 sec
+2015-07-05 22:12:48,541 [Worker-234] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2015-07-05 22:12:48,542 [Worker-234] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 0 sec
+2015-07-05 22:12:48,715 [Worker-238] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.free:dns:1.0.0-BUILD-SNAPSHOT @ /Users/iitkin/Documents/workspace/private-dns/dnsapp/pom.xml.
+2015-07-05 22:12:48,887 [Worker-238] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+2015-07-05 22:12:48,887 [Worker-238] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2015-07-05 22:12:48,891 [Worker-238] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+2015-07-05 22:12:48,891 [Worker-238] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /Users/iitkin/Documents/workspace/private-dns/dnsapp/src/test/resources
+2015-07-05 22:12:49,592 [Worker-236] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.free:dns:1.0.0-BUILD-SNAPSHOT @ /Users/iitkin/Documents/workspace/private-dns/dnsapp/pom.xml.
+2015-07-05 22:12:50,001 [Worker-235] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+2015-07-05 22:12:50,001 [Worker-235] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-07-05 22:12:50,002 [Worker-235] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+2015-07-05 22:12:50,002 [Worker-235] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /Users/iitkin/Documents/workspace/private-dns/dnsapp/src/test/resources
