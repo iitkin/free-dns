@@ -1,5 +1,9 @@
 INDEX VERSION 1.127
 /Users/iitkin/Documents/workspace/private-dns/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/2470884870.index
 /free-dns/src/main/java
+/Users/iitkin/Documents/workspace/private-dns/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/3954232142.index
+/dnsapp/src/main/java
 /Users/iitkin/Documents/workspace/private-dns/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/776772822.index
 /free-dns1/src/main/java
+/Users/iitkin/Documents/workspace/private-dns/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/487666526.index
+/dnsapp/src/main/java
